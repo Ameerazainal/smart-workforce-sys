@@ -79,7 +79,7 @@ const App = () => {
   const [isEmergency, setIsEmergency] = useState(false);
   const [evacStartTime, setEvacStartTime] = useState(null); // Timestamp when emergency triggered
   const [staffData, setStaffData] = useState(MOCK_DATA);
-  const [onSiteSnapshot, setOnSiteSnapshop] = useState([]);
+  const [onSiteSnapshot, setOnSiteSnapshot] = useState([]);
 
   // Real-time Timer: Increments timeIn for everyone every 1 min
   useEffect(() => {
@@ -99,16 +99,19 @@ const App = () => {
 
     if (newEmergency) {
       //Emergency START: Take snapshot of onsite personnel
-      const snapshot = staffData.filter((p) => ({
-        ...p,
-        lastSeenZone: p.zone,
-        lastSeenAt: Date.now(),
-      }));
+      const snapshot = staffData.filter((p) => p.status === "present");
+      setOnSiteSnapshot(
+        snapshot.map((p) => ({
+          ...p,
+          lastSeenZone: p.zone,
+          lastSeenAt: Date.now(),
+        })),
+      );
       setEvacStartTime(Date.now());
       // In real app: API call to PACS for "emergency unlock" doors
       console.log("🚨 EMERGENCY MODE: Doors unlocked, mustering started");
     } else {
-      setOnSiteSnapshop([]);
+      setOnSiteSnapshot([]);
       setEvacStartTime(null);
       setStaffData((prev) => prev.map((p) => ({ ...p, status: "present" })));
       console.log("✅ All Clear: Reset to normal operations");
@@ -143,6 +146,7 @@ const App = () => {
           return {
             ...person,
             zone: newZone,
+            status: newStatus,
             // Reset to 0 if either condition is met; otherwise, keep cumulative time
             timeIn: isEnteringBreak || isLeavingBreak ? 0 : person.timeIn,
           };
