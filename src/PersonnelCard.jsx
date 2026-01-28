@@ -5,12 +5,12 @@ const PersonnelCard = ({ person, isEmergency, onMoveStaff }) => {
   const isSupport = person.type === "support";
   //Support staff logic: Flag if in break room > 45 mins
   const isOverdue =
-    !isEmergency && person.zone === "Break Room" && person.timeIn > 0;
+    !isEmergency && person.zone === "Break Room" && person.timeIn >= 1; // 1 minute max 
 
   const isOverwork =
     !isEmergency &&
     ["Line A", "Line B", "Maintenance Bay"].includes(person.zone) &&
-    person.timeIn > 5;
+    person.timeIn >= 5; // 5 minutes max
 
   //Emergency mode status
   const isSafe = person.status === "safe";
@@ -76,7 +76,7 @@ const PersonnelCard = ({ person, isEmergency, onMoveStaff }) => {
           }`}
           value={person.zone}
           onChange={(e) => onMoveStaff(person.id, e.target.value)}
-          disabled={isEmergency && !isSafe}
+          // disabled={isEmergency && !isSafe}
         >
           {zones.map((z) => {
             const isCurrent = z === person.zone;

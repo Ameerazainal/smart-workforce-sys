@@ -113,8 +113,8 @@ const App = () => {
     } else {
       setOnSiteSnapshot([]);
       setEvacStartTime(null);
-      setStaffData((prev) => prev.map((p) => ({ ...p, status: "present" })));
-      console.log("✅ All Clear: Reset to normal operations");
+      setStaffData((prev) => prev.map((p) => ({ ...p, zone: "Break Room", timeIn: 0, status: "present" })));
+      console.log("✅ All Clear: Reset to normal operations");   
     }
   };
 
