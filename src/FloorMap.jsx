@@ -6,7 +6,7 @@ const FloorMap = ({ staff, isEmergency, onsiteSnapshot, onMoveStaff }) => {
     "Line B",
     "Maintenance Bay",
     "Break Room",
-    ...(isEmergency ? ["Assembly A", "Assembly B"] : []),
+    ...(isEmergency ? ["", "Assembly A", "Assembly B"] : []),
   ];
 
   return (

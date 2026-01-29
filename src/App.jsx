@@ -113,8 +113,15 @@ const App = () => {
     } else {
       setOnSiteSnapshot([]);
       setEvacStartTime(null);
-      setStaffData((prev) => prev.map((p) => ({ ...p, zone: "Break Room", timeIn: 0, status: "present" })));
-      console.log("✅ All Clear: Reset to normal operations");   
+      setStaffData((prev) =>
+        prev.map((p) => ({
+          ...p,
+          zone: "Break Room",
+          timeIn: 0,
+          status: "present",
+        })),
+      );
+      console.log("✅ All Clear: Reset to normal operations");
     }
   };
 
@@ -131,7 +138,10 @@ const App = () => {
             person.zone === "Break Room" && newZone !== "Break Room";
 
           // Emergency mode: Only allow moves to Muster zones, update status
-          if (isEmergency && !["Assembly A", "Assembly B"].includes(newZone)) {
+          if (
+            isEmergency &&
+            !["", "Assembly A", "Assembly B"].includes(newZone)
+          ) {
             console.warn(
               `Restricted: Cannot move to ${newZone} during emergency`,
             );
@@ -139,7 +149,7 @@ const App = () => {
           }
 
           const newStatus =
-            isEmergency && ["Assembly A", "Assembly B"].includes(newZone)
+            isEmergency && ["", "Assembly A", "Assembly B"].includes(newZone)
               ? "safe"
               : person.status;
 

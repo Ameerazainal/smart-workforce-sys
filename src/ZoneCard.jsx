@@ -8,7 +8,7 @@ const ZoneCard = ({
   onMoveStaff,
 }) => {
   const isBreakZone = name === "Break Room";
-  const isMusterZone = name === "Assembly A" || "Assembly B";
+  const isMusterZone = name === "" || "Assembly A" || "Assembly B";
 
   const expectedHere = isEmergency
     ? onsiteSnapshot.filter((p) => p.lastSeenZone === name).length
